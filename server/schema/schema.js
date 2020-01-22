@@ -10,7 +10,8 @@ const {
     GraphQLSchema,
     GraphQLID,
     GraphQLInt,
-    GraphQLList
+    GraphQLList,
+    GraphQLNonNull
 } = graphql;
 /*Dummy Data
 var classes = [
@@ -345,12 +346,12 @@ const Mutation = new GraphQLObjectType({
         addSchedule: {
             type: ScheduleType,
             args:{
-                name:{ type: GraphQLString },
-                ages:{ type: GraphQLString },
-                semester:{ type: GraphQLString },
-                time:{ type: GraphQLString },
-                cost:{ type: GraphQLString },
-                openslots:{ type: GraphQLInt }
+                name:{ type: new GraphQLNonNull(GraphQLString) },
+                ages:{ type: new GraphQLNonNull(GraphQLString) },
+                semester:{ type: new GraphQLNonNull(GraphQLString) },
+                time:{ type: new GraphQLNonNull(GraphQLString) },
+                cost:{ type: new GraphQLNonNull(GraphQLString) },
+                openslots:{ type: new GraphQLNonNull(GraphQLInt) }
             },
             resolve(parent,args){
                 let schedule = new Schedule({

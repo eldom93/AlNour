@@ -272,6 +272,22 @@ var schedules = [
     }
 ];*/
 
+const ClassType = new GraphQLObjectType({
+    name:'Class',
+    fields: () => ({
+        id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        subject: { type: GraphQLString },
+        description: { type: GraphQLString },
+        schedule: {
+            type: ScheduleType,
+            resolve(parent, args){
+                return Schedule.findById(parent.scheduleId);
+            }
+        }   
+    })
+});
+
 const ScheduleType = new GraphQLObjectType({
     name:'Schedule',
     fields:() => ({
@@ -285,27 +301,12 @@ const ScheduleType = new GraphQLObjectType({
         clas:{
             type: new GraphQLList(ClassType),
             resolve(parent,args){
-                return Schedule.find(parent.scheduleId);
+                return Class.find({scheduleId:parent.id});
             }
         }
     })
 });
 
-const ClassType = new GraphQLObjectType({
-    name:'Class',
-    fields: () => ({
-        id: { type: GraphQLID },
-        name: { type: GraphQLString },
-        subject: { type: GraphQLString },
-        description: { type: GraphQLString },
-        schedule: {
-            type: ScheduleType,
-            resolve(parent, args){
-                return Class.findById({scheduleId:parent.id});
-            }
-        }   
-    })
-});
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
